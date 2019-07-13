@@ -1,25 +1,47 @@
 package com.es.phoneshop.model.product;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 public class ArrayListProductDao implements ProductDao {
+
+    List<Product> productList = new ArrayList<>();
+
     @Override
     public Product getProduct(Long id) {
-        throw new RuntimeException("Not implemented");
+        return this.productList.stream()
+                .filter(product -> product.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Product with such ID is not found"));
     }
 
     @Override
-    public List<Product> findProducts() {
-        throw new RuntimeException("Not implemented");
+    public synchronized List<Product> findProducts() {
+        return this.productList.stream()
+                .filter(product -> product.getPrice() != null && product.getStock() > 0)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public void save(Product product) {
-        throw new RuntimeException("Not implemented");
+    public synchronized void save(Product product) {
+        if (this.productList.stream()
+                .noneMatch(product1 -> product1.getId().equals(product.getId())
+                        && product1.getCode().equals(product.getCode())
+                        && product1.getDescription().equals(product.getDescription())
+                )) {
+            this.productList.add(product);
+        } else {
+            throw new IllegalArgumentException("Product with such id/code/description is already exist.");
+        }
     }
 
     @Override
-    public void delete(Long id) {
-        throw new RuntimeException("Not implemented");
+    public synchronized void delete(Long id) {
+        this.productList.stream().filter(product -> product.getId().equals(id))
+                .findFirst()
+                .map(product -> this.productList.remove(product))
+                .orElseThrow(() -> new NoSuchElementException("Product with such ID is not found"));
     }
 }
