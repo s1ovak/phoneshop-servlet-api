@@ -7,14 +7,17 @@ import java.util.stream.Collectors;
 
 public class ArrayListProductDao implements ProductDao {
 
-    List<Product> productList = new ArrayList<>();
+    private List<Product> productList = new ArrayList<>();
 
     @Override
-    public Product getProduct(Long id) {
+    public synchronized Product getProduct(Long id) {
+        if (id == null)
+            throw new IllegalArgumentException("Parameter 'id' should not be null");
+
         return this.productList.stream()
                 .filter(product -> product.getId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Product with such ID is not found"));
+                .orElseThrow(() -> new NoSuchElementException("Product with such ID = " + id + "is not found"));
     }
 
     @Override

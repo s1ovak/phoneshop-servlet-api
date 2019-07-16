@@ -25,6 +25,7 @@ public class ProductListPageServletTest {
     private HttpServletResponse response;
     @Mock
     private RequestDispatcher requestDispatcher;
+
     @Mock
     private ServletConfig servletConfig;
 
@@ -38,7 +39,9 @@ public class ProductListPageServletTest {
     @Test
     public void testDoGet() throws ServletException, IOException {
         servlet.init(servletConfig);
+
         servlet.doGet(request, response);
+
         verify(requestDispatcher).forward(request, response);
     }
 }

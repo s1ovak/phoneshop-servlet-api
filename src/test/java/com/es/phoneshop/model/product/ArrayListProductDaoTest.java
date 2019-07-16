@@ -14,10 +14,9 @@ import static org.junit.Assert.assertTrue;
 public class ArrayListProductDaoTest {
     private ProductDao productDao;
 
-    @Mock
-    String imageUrl;
+    private final String imageUrl = "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Samsung/Samsung%20Galaxy%20S.jpg";
 
-    Currency usd = Currency.getInstance("USD");
+    private final Currency usd = Currency.getInstance("USD");
 
     @Before
     public void setup() {
@@ -32,6 +31,7 @@ public class ArrayListProductDaoTest {
     @Test
     public void testFindProducts() {
         productDao.save(new Product(1L, "sgs", "Samsung Galaxy S", new BigDecimal(100), usd, 100, imageUrl));
+
         assertEquals(productDao.findProducts().size(), 1);
     }
 
