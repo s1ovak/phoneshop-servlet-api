@@ -3,8 +3,6 @@ package com.es.phoneshop.web;
 import com.es.phoneshop.model.product.ArrayListProductDao;
 import com.es.phoneshop.model.product.Product;
 import com.es.phoneshop.model.product.ProductDao;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -17,8 +15,7 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 
-@Getter
-@Setter
+
 public class ProductListPageServlet extends HttpServlet {
 
     private ProductDao productDao;
