@@ -14,6 +14,17 @@
     <servlet-name>productList</servlet-name>
     <url-pattern>/products</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>productDetails</servlet-name>
+    <servlet-class>com.es.phoneshop.web.ProductDetailsPageServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>productDetails</servlet-name>
+    <url-pattern>/products/*</url-pattern>
+  </servlet-mapping>
+  
 
   <context-param>
     <param-name>getProducts</param-name>
@@ -23,5 +34,10 @@
   <listener>
     <listener-class>com.es.phoneshop.web.ProductDemodataServletContextListener</listener-class>
   </listener>
+
+  <error-page>
+    <exception-type>com.es.phoneshop.exceptions.ProductNotFoundException</exception-type>
+    <location>/WEB-INF/pages/404.jsp</location>
+  </error-page>
 
 </web-app>

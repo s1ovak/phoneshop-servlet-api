@@ -1,5 +1,7 @@
 package com.es.phoneshop.model.product;
 
+import com.es.phoneshop.exceptions.ProductNotFoundException;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -26,7 +28,7 @@ public class ArrayListProductDao implements ProductDao {
                 .filter(product1 -> product1.getId().equals(id))
                 .findFirst()
                 .orElseThrow(() ->
-                        new NoSuchElementException("Product with such ID = " + id + "is not found"));
+                        new ProductNotFoundException("Product with such ID = " + id + " is not found"));
         return new Product(product);
     }
 
@@ -65,7 +67,7 @@ public class ArrayListProductDao implements ProductDao {
         this.productList.stream().filter(product -> product.getId().equals(id))
                 .findFirst()
                 .map(product -> this.productList.remove(product))
-                .orElseThrow(() -> new NoSuchElementException("Product with such ID = " + id + "is not found"));
+                .orElseThrow(() -> new ProductNotFoundException("Product with such ID = " + id + " is not found"));
     }
 
     private List<Product> findProductsByQueryParam(String[] query, List<Product> validProducts) {
