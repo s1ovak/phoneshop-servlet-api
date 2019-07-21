@@ -19,10 +19,11 @@ public class ArrayListProductDao implements ProductDao {
     }
 
     @Override
-    public synchronized List<Product> findProducts() {
-        List<Product> buf = this.productList.stream()
-                .filter(product -> product.getPrice() != null && product.getStock() > 0)
-                .collect(Collectors.toList());
+    public synchronized List<Product> findProducts(String query) {
+        List<Product> buf = findValidProducts();
+        if (query != null && !query.trim().isEmpty()) {
+            buf = findProductsByQueryParam(query.toLowerCase().split(" "), buf);
+        }
         buf.forEach(product -> product = new Product(product));
         return buf;
     }
@@ -48,5 +49,33 @@ public class ArrayListProductDao implements ProductDao {
                 .findFirst()
                 .map(product -> this.productList.remove(product))
                 .orElseThrow(() -> new NoSuchElementException("Product with such ID = " + id + "is not found"));
+    }
+
+    private List<Product> findProductsByQueryParam(String[] query, List<Product> validProducts) {
+        HashMap<Product, Integer> map = new HashMap<>();
+        validProducts.forEach(product -> {
+            Integer number = 0;
+            for (String q : query) {
+                if (product.getDescription().toLowerCase().contains(q)) {
+                    number++;
+                }
+            }
+
+            if (number > 0) {
+                map.put(product, number);
+            }
+        });
+
+        List<Product> sortedList = new ArrayList<>();
+        map.entrySet().stream()
+                .sorted(Map.Entry.<Product, Integer>comparingByValue().reversed())
+                .forEach(product -> sortedList.add(product.getKey()));
+        return sortedList;
+    }
+
+    private List<Product> findValidProducts() {
+        return this.productList.stream()
+                .filter(product -> product.getPrice() != null && product.getStock() > 0)
+                .collect(Collectors.toList());
     }
 }
