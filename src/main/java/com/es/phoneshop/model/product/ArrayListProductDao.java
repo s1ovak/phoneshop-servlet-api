@@ -4,6 +4,18 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ArrayListProductDao implements ProductDao {
+    private static ArrayListProductDao instance;
+
+    private ArrayListProductDao() {
+    }
+
+    public static synchronized ArrayListProductDao getInstance() {
+        if (instance == null) {
+            instance = new ArrayListProductDao();
+        }
+        return instance;
+    }
+
 
     private List<Product> productList = new ArrayList<>();
 

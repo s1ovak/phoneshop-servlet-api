@@ -15,4 +15,13 @@
     <url-pattern>/products</url-pattern>
   </servlet-mapping>
 
+  <context-param>
+    <param-name>getProducts</param-name>
+    <param-value>true</param-value>
+  </context-param>
+
+  <listener>
+    <listener-class>com.es.phoneshop.web.ProductDemodataServletContextListener</listener-class>
+  </listener>
+
 </web-app>
