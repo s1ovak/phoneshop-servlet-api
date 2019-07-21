@@ -19,23 +19,28 @@ public class ArrayListProductDao implements ProductDao {
     }
 
     @Override
-    public synchronized List<Product> findProducts(String query) {
-        List<Product> buf = findValidProducts();
+    public synchronized List<Product> findProducts(String query, String sort, String order) {
+        List<Product> validProducts = findValidProducts();
+
         if (query != null && !query.trim().isEmpty()) {
-            buf = findProductsByQueryParam(query.toLowerCase().split(" "), buf);
+            validProducts = findProductsByQueryParam(query.toLowerCase().split(" "), validProducts);
         }
-        buf.forEach(product -> product = new Product(product));
-        return buf;
+
+        if (sort != null && !sort.trim().isEmpty() && order != null && !order.trim().isEmpty()) {
+            validProducts = sortProducts(sort, order, validProducts);
+        }
+
+        return validProducts;
     }
 
     @Override
     public synchronized void save(Product product) {
         Objects.requireNonNull(product, "Product to save should not be null");
-        Optional<Product> buf = this.productList.stream()
+        Optional<Product> validProducts = this.productList.stream()
                 .filter(product1 -> product1.getId().equals(product.getId()))
                 .findFirst();
-        if (buf.isPresent()) {
-            productList.set(productList.indexOf(buf.get()), product);
+        if (validProducts.isPresent()) {
+            productList.set(productList.indexOf(validProducts.get()), product);
         } else {
             this.productList.add(product);
         }
@@ -52,6 +57,7 @@ public class ArrayListProductDao implements ProductDao {
     }
 
     private List<Product> findProductsByQueryParam(String[] query, List<Product> validProducts) {
+        Objects.requireNonNull(validProducts, "Collection should not be null");
         HashMap<Product, Integer> map = new HashMap<>();
         validProducts.forEach(product -> {
             Integer number = 0;
@@ -74,8 +80,32 @@ public class ArrayListProductDao implements ProductDao {
     }
 
     private List<Product> findValidProducts() {
-        return this.productList.stream()
+        List<Product> result = this.productList.stream()
                 .filter(product -> product.getPrice() != null && product.getStock() > 0)
                 .collect(Collectors.toList());
+        result.forEach(product -> product = new Product(product));
+        return result;
+    }
+
+    private List<Product> sortProducts(String sort, String order, List<Product> products) {
+        Objects.requireNonNull(products, "Collection should not be null");
+        List<Product> result = products;
+
+        if ("description".equalsIgnoreCase(sort)) {
+            result = result
+                    .stream()
+                    .sorted("asc".equalsIgnoreCase(order)
+                            ? Comparator.comparing(Product::getDescription)
+                            : Comparator.comparing(Product::getDescription).reversed())
+                    .collect(Collectors.toList());
+        } else if ("price".equalsIgnoreCase(sort)) {
+            result = result
+                    .stream()
+                    .sorted("asc".equalsIgnoreCase(order)
+                            ? Comparator.comparing(Product::getPrice)
+                            : Comparator.comparing(Product::getPrice).reversed())
+                    .collect(Collectors.toList());
+        }
+        return result;
     }
 }

@@ -5,9 +5,7 @@ header {
   text-shadow: 1px 1px 0px #ededed, 4px 4px 0px rgba(0,0,0,0.15);
 
 }
-header a:link {
-  text-decoration: none;
-}
+
 header img {
   max-width: 64px;
 }
@@ -27,6 +25,12 @@ td {
 img.product-tile {
   max-width: 64px;
 }
+
+a.sorting {
+  text-decoration: none;
+  color: black;
+}
+
 
 /* Page specific styles */
 body.product-list {

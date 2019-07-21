@@ -18,6 +18,8 @@ import java.util.List;
 
 public class ProductListPageServlet extends HttpServlet {
     private static final String QUERY = "query";
+    private static final String SORT = "sort";
+    private static final String ORDER = "order";
     private ProductDao productDao;
 
     @Override
@@ -28,7 +30,11 @@ public class ProductListPageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("products", productDao.findProducts(request.getParameter(QUERY)));
+        String query = request.getParameter(QUERY);
+        String sort = request.getParameter(SORT);
+        String order = request.getParameter(ORDER);
+
+        request.setAttribute("products", productDao.findProducts(query, sort, order));
         request.getRequestDispatcher("/WEB-INF/pages/productList.jsp").forward(request, response);
     }
 
