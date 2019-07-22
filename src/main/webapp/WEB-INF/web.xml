@@ -9,7 +9,6 @@
     <servlet-name>productList</servlet-name>
     <servlet-class>com.es.phoneshop.web.ProductListPageServlet</servlet-class>
   </servlet>
-  
   <servlet-mapping>
     <servlet-name>productList</servlet-name>
     <url-pattern>/products</url-pattern>
@@ -19,10 +18,18 @@
     <servlet-name>productDetails</servlet-name>
     <servlet-class>com.es.phoneshop.web.ProductDetailsPageServlet</servlet-class>
   </servlet>
-  
   <servlet-mapping>
     <servlet-name>productDetails</servlet-name>
     <url-pattern>/products/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>priceHistory</servlet-name>
+    <servlet-class>com.es.phoneshop.web.PriceHistoryPageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>priceHistory</servlet-name>
+    <url-pattern>/products/history/*</url-pattern>
   </servlet-mapping>
   
 

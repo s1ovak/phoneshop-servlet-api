@@ -37,10 +37,13 @@
                 <td>
                     <a href="products/${product.id}">${product.description}</a></td>
                 <td class="price">
+                    <a href="<c:url value="/products/history/${product.id}"/>">
                     <fmt:formatNumber value="${product.price}" type="currency"
                                       currencySymbol="${product.currency.symbol}"/>
+                    </a>
                 </td>
             </tr>
         </c:forEach>
     </table>
 </tags:master>
+
