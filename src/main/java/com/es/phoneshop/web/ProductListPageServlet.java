@@ -17,9 +17,9 @@ import java.util.List;
 
 
 public class ProductListPageServlet extends HttpServlet {
-    private static final String QUERY = "query";
-    private static final String SORT = "sort";
-    private static final String ORDER = "order";
+    protected static final String QUERY = "query";
+    protected static final String SORT = "sort";
+    protected static final String ORDER = "order";
     private ProductDao productDao;
 
     @Override

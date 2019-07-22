@@ -29,11 +29,17 @@ public class ProductListPageServletTest {
     private ServletConfig servletConfig;
 
     private ProductListPageServlet servlet = new ProductListPageServlet();
+    private String query = "samsung";
+    private String order = "asc";
+    private String sort = "description";
 
     @Before
     public void setup() throws ServletException {
         servlet.init(servletConfig);
         when(request.getRequestDispatcher(anyString())).thenReturn(requestDispatcher);
+        when(request.getParameter(ProductListPageServlet.QUERY)).thenReturn(query);
+        when(request.getParameter(ProductListPageServlet.ORDER)).thenReturn(order);
+        when(request.getParameter(ProductListPageServlet.SORT)).thenReturn(sort);
     }
 
     @Test
