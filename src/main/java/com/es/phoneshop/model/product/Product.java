@@ -1,16 +1,18 @@
 package com.es.phoneshop.model.product;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Currency;
+import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@EqualsAndHashCode
 public class Product {
     private Long id;
     private String code;
@@ -21,7 +23,7 @@ public class Product {
     private Currency currency;
     private int stock;
     private String imageUrl;
-    private ArrayList<PriceHistory> priceHistories;
+    private List<PriceHistory> priceHistories;
 
     public Product(Product otherProduct) {
         this(otherProduct.getId(),otherProduct.getCode(),otherProduct.getDescription(),

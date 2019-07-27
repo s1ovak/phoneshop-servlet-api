@@ -17,7 +17,7 @@
         <tr>
             <td>Image</td>
             <td>Description
-                <a href="?query=${param.query}&sort=description&order=asc">&dArr;</a>
+                <a href="?query=${param.query}&sort=description&order=asc" class="noUnderline">&dArr;</a>
                 <a href="?query=${param.query}&sort=description&order=desc">&uArr;</a>
             </td>
             <td class="price">Price
