@@ -9,10 +9,47 @@
     <servlet-name>productList</servlet-name>
     <servlet-class>com.es.phoneshop.web.ProductListPageServlet</servlet-class>
   </servlet>
-  
   <servlet-mapping>
     <servlet-name>productList</servlet-name>
     <url-pattern>/products</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>productDetails</servlet-name>
+    <servlet-class>com.es.phoneshop.web.ProductDetailsPageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>productDetails</servlet-name>
+    <url-pattern>/products/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>priceHistory</servlet-name>
+    <servlet-class>com.es.phoneshop.web.PriceHistoryPageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>priceHistory</servlet-name>
+    <url-pattern>/products/history/*</url-pattern>
+  </servlet-mapping>
+  
+
+  <context-param>
+    <param-name>getProducts</param-name>
+    <param-value>true</param-value>
+  </context-param>
+
+  <listener>
+    <listener-class>com.es.phoneshop.web.ProductDemodataServletContextListener</listener-class>
+  </listener>
+
+  <error-page>
+    <exception-type>com.es.phoneshop.exceptions.ProductNotFoundException</exception-type>
+    <location>/WEB-INF/pages/404.jsp</location>
+  </error-page>
+
+  <error-page>
+    <exception-type>java.lang.NumberFormatException</exception-type>
+    <location>/WEB-INF/pages/404.jsp</location>
+  </error-page>
 
 </web-app>

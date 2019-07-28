@@ -5,9 +5,7 @@ header {
   text-shadow: 1px 1px 0px #ededed, 4px 4px 0px rgba(0,0,0,0.15);
 
 }
-header a:link {
-  text-decoration: none;
-}
+
 header img {
   max-width: 64px;
 }
@@ -28,7 +26,16 @@ img.product-tile {
   max-width: 64px;
 }
 
-/* Page specific styles */
-body.product-list {
-
+a.sorting {
+  text-decoration: none;
+  color: black;
 }
+
+p {
+  font-size: 20px;
+}
+
+.noUnderline{
+  text-underline: none;
+}
+
