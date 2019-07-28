@@ -14,4 +14,8 @@ import java.math.BigDecimal;
 public class PriceHistory {
     private String date;
     private BigDecimal price;
+
+    public PriceHistory(PriceHistory priceHistory) {
+        this(priceHistory.getDate(), priceHistory.getPrice());
+    }
 }
