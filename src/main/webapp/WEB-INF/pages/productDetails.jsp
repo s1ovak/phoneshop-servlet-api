@@ -5,6 +5,7 @@
 
 <jsp:useBean id="product" type="com.es.phoneshop.model.product.Product" scope="request"/>
 <tags:master pageTitle="Product Details">
+    <a href="http://localhost:8080/phoneshop-servlet-api/products">Back to product list</a>
     <p>
         Product details
     </p>
@@ -28,4 +29,5 @@
             </c:if>
         </p>
     </form>
+    <tags:recentlyViewed recentProducts="${recentProducts}"/>
 </tags:master>

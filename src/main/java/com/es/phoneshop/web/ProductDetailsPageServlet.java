@@ -2,10 +2,13 @@ package com.es.phoneshop.web;
 
 import com.es.phoneshop.exceptions.OutOfStockException;
 import com.es.phoneshop.model.cart.Cart;
+import com.es.phoneshop.model.cart.RecentViews;
 import com.es.phoneshop.service.CartService;
 import com.es.phoneshop.service.ProductService;
+import com.es.phoneshop.service.RecentViewsService;
 import com.es.phoneshop.service.impl.HttpSessionCartService;
 import com.es.phoneshop.service.impl.ProductServiceImpl;
+import com.es.phoneshop.service.impl.RecentViewsServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,19 +21,25 @@ public class ProductDetailsPageServlet extends HttpServlet {
     static final String ERROR = "error";
     private ProductService productService;
     private CartService cartService;
+    private RecentViewsService recentViewsService;
 
     @Override
     public void init() throws ServletException {
         productService = ProductServiceImpl.getInstance();
         cartService = HttpSessionCartService.getInstance();
+        recentViewsService = RecentViewsServiceImpl.getInstance();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RecentViews recentViews = recentViewsService.getRecentViews(request);
+
+        request.setAttribute("recentProducts", recentViews.getRecentyViewedProducts());
         request.setAttribute("product", productService.getProduct(getIdFromPath(request)));
         request.setAttribute("cart", cartService.getCart(request));
         request.getRequestDispatcher("/WEB-INF/pages/productDetails.jsp")
                 .forward(request, response);
+        recentViewsService.add(recentViews, getIdFromPath(request));
     }
 
     @Override

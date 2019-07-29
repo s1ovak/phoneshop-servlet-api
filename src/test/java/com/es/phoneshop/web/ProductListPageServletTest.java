@@ -11,6 +11,7 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static org.mockito.ArgumentMatchers.anyString;
@@ -27,11 +28,14 @@ public class ProductListPageServletTest {
     private RequestDispatcher requestDispatcher;
     @Mock
     private ServletConfig servletConfig;
+    @Mock
+    private HttpSession session;
 
     private ProductListPageServlet servlet = new ProductListPageServlet();
     private String query = "samsung";
     private String order = "asc";
     private String sort = "description";
+
 
     @Before
     public void setup() throws ServletException {
@@ -40,6 +44,7 @@ public class ProductListPageServletTest {
         when(request.getParameter(ProductListPageServlet.QUERY)).thenReturn(query);
         when(request.getParameter(ProductListPageServlet.ORDER)).thenReturn(order);
         when(request.getParameter(ProductListPageServlet.SORT)).thenReturn(sort);
+        when(request.getSession()).thenReturn(session);
     }
 
     @Test
