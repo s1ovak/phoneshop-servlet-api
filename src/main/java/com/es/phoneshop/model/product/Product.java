@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,5 +38,12 @@ public class Product {
                         .stream()
                         .map(priceHistory -> priceHistory = new PriceHistory(priceHistory))
                         .collect(Collectors.toList()));
+    }
+
+    @Override
+    public String toString() {
+        return "Product{"
+                + "id='" + id + '\''
+                + '}';
     }
 }
