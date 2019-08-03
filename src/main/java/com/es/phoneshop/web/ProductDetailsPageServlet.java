@@ -15,10 +15,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
 
 public class ProductDetailsPageServlet extends HttpServlet {
-    static final String QUANTITY = "quantity";
-    static final String ERROR = "error";
+    private static final String QUANTITY = "quantity";
+    private static final String ERROR = "error";
     private ProductService productService;
     private CartService cartService;
     private RecentViewsService recentViewsService;
@@ -48,8 +51,10 @@ public class ProductDetailsPageServlet extends HttpServlet {
         int quantity;
 
         try {
-            quantity = Integer.valueOf(request.getParameter(QUANTITY));
-        } catch (NumberFormatException exception) {
+            Locale locale = request.getLocale();
+            quantity = NumberFormat
+                    .getInstance(locale).parse(request.getParameter(QUANTITY)).intValue();
+        } catch (NumberFormatException | ParseException exception) {
             request.setAttribute(ERROR, "Not a number");
             doGet(request, response);
             return;

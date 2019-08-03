@@ -59,8 +59,6 @@ public class RecentViewsServiceTest {
 
     @Test
     public void testAdd() {
-        assertEquals(0, recentViewsService.getRecentViews(request).getRecentyViewedProducts().size());
-
         recentViewsService.add(recentViews, 1L);
         recentViewsService.add(recentViews, 2L);
         recentViewsService.add(recentViews, 1L);

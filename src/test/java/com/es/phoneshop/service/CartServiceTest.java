@@ -40,7 +40,7 @@ public class CartServiceTest {
     @Before
     public void setup() {
         when(request.getSession()).thenReturn(session);
-        when(session.getAttribute(anyString())).thenReturn(cart);
+        when(session.getAttribute("cart")).thenReturn(cart);
         List<PriceHistory> priceHistories = new ArrayList<>();
         priceHistories.add(new PriceHistory("1 Set 2018", new BigDecimal(100)));
         productDao.save(new Product(1L, "sgs", "Samsung Galaxy S", new BigDecimal(100), null, 100, null, priceHistories));
@@ -49,7 +49,7 @@ public class CartServiceTest {
     @After
     public void clear() {
         productDao.clearAll();
-        cart.getCartItems().clear();
+        cart.clearAll();
     }
 
     @Test
@@ -61,7 +61,6 @@ public class CartServiceTest {
     @Test
     public void testAddSuccessful() throws OutOfStockException {
         assertEquals(0, cartService.getCart(request).getCartItems().size());
-
 
         cartService.add(cart, 1L, 1);
         assertEquals(1, cartService.getCart(request).getCartItems().size());

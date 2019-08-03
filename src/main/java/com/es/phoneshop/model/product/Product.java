@@ -57,7 +57,7 @@ public class Product {
         }
 
         Product product = (Product) o;
-        return id.equals(product.id);
+        return id != null && id.equals(product.id);
     }
 
     @Override

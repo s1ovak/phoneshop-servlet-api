@@ -1,7 +1,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ tag trimDirectiveWhitespaces="true" %>
-<%@ attribute name="recentProducts" required="true" type="java.util.LinkedList" %>
+<%@ attribute name="recentProducts" required="true" type="java.util.concurrent.ConcurrentLinkedDeque" %>
 
 <c:if test="${not empty recentProducts}">
     <br>

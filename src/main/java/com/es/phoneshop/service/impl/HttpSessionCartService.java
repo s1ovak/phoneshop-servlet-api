@@ -8,16 +8,17 @@ import com.es.phoneshop.service.CartService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Optional;
 
 public class HttpSessionCartService implements CartService {
     private static HttpSessionCartService instance;
 
-    private Cart cart;
+    //private Cart cart;
 
     private HttpSessionCartService() {
-        cart = new Cart();
+        //cart = new Cart();
     }
 
     public static synchronized HttpSessionCartService getInstance() {
@@ -28,7 +29,7 @@ public class HttpSessionCartService implements CartService {
     }
 
     @Override
-    public synchronized Cart getCart(HttpServletRequest request) {
+    public Cart getCart(HttpServletRequest request) {
         Objects.requireNonNull(request, "Request should not be null");
         HttpSession session = request.getSession();
         Cart cart = (Cart) session.getAttribute("cart");
@@ -40,7 +41,7 @@ public class HttpSessionCartService implements CartService {
     }
 
     @Override
-    public synchronized void add(Cart cart, long productId, int quantity) throws OutOfStockException {
+    public void add(Cart cart, long productId, int quantity) {
         Product product = ProductServiceImpl.getInstance().getProduct(productId);
 
         Optional<CartItem> cartItemOptional = cart.getCartItems().stream()
@@ -67,5 +68,12 @@ public class HttpSessionCartService implements CartService {
             CartItem cartItem = new CartItem(product, totalQuantity);
             cart.getCartItems().add(cartItem);
         }
+        recalculateCart(cart, product, quantity);
+    }
+
+    private void recalculateCart(Cart cart, Product product, int quantity) {
+        cart.setTotalCost(
+                cart.getTotalCost().add(product.getPrice().multiply(new BigDecimal(quantity))));
+        cart.setTotalQuantity(cart.getTotalQuantity() + quantity);
     }
 }
