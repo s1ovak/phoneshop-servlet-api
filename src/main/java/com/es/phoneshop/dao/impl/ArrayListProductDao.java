@@ -71,7 +71,7 @@ public class ArrayListProductDao implements ProductDao {
     }
 
     @Override
-    public List<Product> findProducts(String query, List<Product> validProducts) {
+    public synchronized  List<Product> findProducts(String query, List<Product> validProducts) {
         Objects.requireNonNull(validProducts, "Collection should not be null");
         if (query != null && !query.trim().isEmpty()) {
             String[] queries = query.toLowerCase().split(" ");
@@ -99,7 +99,7 @@ public class ArrayListProductDao implements ProductDao {
     }
 
     @Override
-    public List<Product> findProducts() {
+    public synchronized List<Product> findProducts() {
         return this.productList.stream()
                 .filter(product -> product.getPrice() != null && product.getStock() > 0)
                 .map(product -> product = deepCopyProduct(product))

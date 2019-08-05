@@ -6,15 +6,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Getter
 @Setter
 @AllArgsConstructor
-@EqualsAndHashCode
 public class Product {
     private Long id;
     private String code;
@@ -39,5 +38,30 @@ public class Product {
                         .stream()
                         .map(priceHistory -> priceHistory = new PriceHistory(priceHistory))
                         .collect(Collectors.toList()));
+    }
+
+    @Override
+    public String toString() {
+        return "Product{"
+                + "id='" + id + '\''
+                + '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Product product = (Product) o;
+        return id != null && id.equals(product.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
