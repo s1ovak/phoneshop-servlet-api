@@ -41,6 +41,11 @@ public class CartPageServlet extends HttpServlet {
         String[] productIds = request.getParameterValues(PRODUCT_ID);
         String[] quantities = request.getParameterValues(QUANTITY);
 
+        if (productIds == null) {
+            doGet(request, response);
+            return;
+        }
+
         Cart cart = cartService.getCart(request);
 
         String[] errors = new String[productIds.length];

@@ -87,10 +87,16 @@ public class HttpSessionCartService implements CartService {
         recalculateCart(cart);
     }
 
+    @Override
+    public void delete(Cart cart, Long productId) {
+        cart.getCartItems().removeIf(cartItem -> productId.equals(cartItem.getProduct().getId()));
+        recalculateCart(cart);
+    }
+
     private void recalculateCart(Cart cart) {
         BigDecimal newTotalPrice = cart.getCartItems().stream()
                 .map(cartItem -> cartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())))
-                .reduce(BigDecimal::add).get();
+                .reduce(BigDecimal::add).orElse(BigDecimal.valueOf(0));
         cart.setTotalCost(newTotalPrice);
 
         int newQuantity = 0;

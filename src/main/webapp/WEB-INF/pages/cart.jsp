@@ -51,6 +51,10 @@
                         <fmt:formatNumber value="${product.price}" type="currency"
                                           currencySymbol="${product.currency.symbol}"/>
                     </td>
+                    <td>
+                        <c:url value="/cart/deleteCartItem/${product.id}" var="deleteItem"/>
+                        <button formaction="${deleteItem}">Remove</button>
+                    </td>
                 </tr>
             </c:forEach>
 
