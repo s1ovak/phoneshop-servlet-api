@@ -12,7 +12,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString
 public class Cart implements Serializable {
     private List<CartItem> cartItems = Collections.synchronizedList(new ArrayList<>());
     private BigDecimal totalCost = new BigDecimal(0);
@@ -20,5 +19,13 @@ public class Cart implements Serializable {
 
     public void clearAll() {
         this.cartItems.clear();
+    }
+
+    @Override
+    public String toString() {
+        return "Cart{"
+                + "totalCost=" + totalCost
+                + ", totalQuantity=" + totalQuantity
+                + '}';
     }
 }
