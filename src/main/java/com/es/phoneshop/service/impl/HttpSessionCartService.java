@@ -68,12 +68,41 @@ public class HttpSessionCartService implements CartService {
             CartItem cartItem = new CartItem(product, totalQuantity);
             cart.getCartItems().add(cartItem);
         }
-        recalculateCart(cart, product, quantity);
+        recalculateCart(cart);
     }
 
-    private void recalculateCart(Cart cart, Product product, int quantity) {
-        cart.setTotalCost(
-                cart.getTotalCost().add(product.getPrice().multiply(new BigDecimal(quantity))));
-        cart.setTotalQuantity(cart.getTotalQuantity() + quantity);
+    @Override
+    public synchronized void update(Cart cart, long productId, int quantity) {
+        Product product = ProductServiceImpl.getInstance().getProduct(productId);
+
+        if (quantity > product.getStock() || quantity <= 0) {
+            throw new OutOfStockException(
+                    "Not enough stock. Product stock is " + product.getStock());
+        }
+
+        CartItem cartItem = getCartItemFromCart(cart, productId);
+
+        cartItem.setQuantity(quantity);
+
+        recalculateCart(cart);
+    }
+
+    private void recalculateCart(Cart cart) {
+        BigDecimal newTotalPrice = cart.getCartItems().stream()
+                .map(cartItem -> cartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())))
+                .reduce(BigDecimal::add).get();
+        cart.setTotalCost(newTotalPrice);
+
+        int newQuantity = 0;
+        for (CartItem cartItem: cart.getCartItems()) {
+            newQuantity += cartItem.getQuantity();
+        }
+        cart.setTotalQuantity(newQuantity);
+    }
+
+    private CartItem getCartItemFromCart(Cart cart, long id) {
+        return cart.getCartItems().stream()
+                .filter(cartItem1 -> Long.valueOf(id).equals(cartItem1.getProduct().getId()))
+                .findAny().get();
     }
 }

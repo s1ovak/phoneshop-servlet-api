@@ -32,6 +32,15 @@
     <url-pattern>/products/history/*</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>cart</servlet-name>
+    <servlet-class>com.es.phoneshop.web.CartPageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>cart</servlet-name>
+    <url-pattern>/cart</url-pattern>
+  </servlet-mapping>
+  
 
   <context-param>
     <param-name>getProducts</param-name>
