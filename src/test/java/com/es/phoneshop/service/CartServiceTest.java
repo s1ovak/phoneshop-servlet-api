@@ -78,4 +78,27 @@ public class CartServiceTest {
     public void testAddIfIncorrectQuantity() throws OutOfStockException {
         cartService.add(cart, 1L, -5);
     }
+
+    @Test
+    public void testUpdateSuccess() throws OutOfStockException {
+        cartService.add(cart, 1L, 1);
+        cartService.update(cart, 1L, 5);
+        assertEquals(5, cartService.getCart(request).getCartItems().get(0).getQuantity());
+        cartService.update(cart, 1L, 2);
+        assertEquals(2, cartService.getCart(request).getCartItems().get(0).getQuantity());
+    }
+
+    @Test(expected = OutOfStockException.class)
+    public void testUpdateWithOverflow() throws OutOfStockException {
+        cartService.add(cart, 1L, 1);
+        cartService.update(cart, 1L, 1000);
+    }
+
+    @Test
+    public void testDeleteSuccess() throws OutOfStockException{
+        cartService.add(cart, 1L, 1);
+        assertEquals(1, cartService.getCart(request).getCartItems().size());
+        cartService.delete(cart, 1L);
+        assertEquals(0, cartService.getCart(request).getCartItems().size());
+    }
 }
