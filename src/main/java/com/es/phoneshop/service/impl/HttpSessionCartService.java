@@ -100,6 +100,12 @@ public class HttpSessionCartService implements CartService {
         }
     }
 
+    @Override
+    public void clearCart(Cart cart) {
+        cart.clearAll();
+        cart.setTotalCost(BigDecimal.ZERO);
+    }
+
     private void recalculateCart(Cart cart) {
         BigDecimal newTotalPrice = cart.getCartItems().stream()
                 .map(cartItem -> cartItem.getProduct().getPrice()

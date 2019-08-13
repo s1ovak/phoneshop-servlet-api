@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Getter
+@Setter
 public class Cart implements Serializable {
     private List<CartItem> cartItems = new CopyOnWriteArrayList<>();
     private BigDecimal totalCost = new BigDecimal(0);
@@ -27,13 +28,5 @@ public class Cart implements Serializable {
                 + "totalCost=" + totalCost
                 + ", totalQuantity=" + totalQuantity
                 + '}';
-    }
-
-    public void setTotalCost(BigDecimal totalCost) {
-        this.totalCost = totalCost;
-    }
-
-    public void setTotalQuantity(int totalQuantity) {
-        this.totalQuantity = totalQuantity;
     }
 }
