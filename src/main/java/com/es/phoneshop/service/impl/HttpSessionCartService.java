@@ -82,10 +82,11 @@ public class HttpSessionCartService implements CartService {
                     "Not enough stock. Product stock is " + product.getStock());
         }
         synchronized (cart) {
-            CartItem cartItem = getCartItemFromCart(cart, productId);
+            Optional<CartItem> cartItemOptional = cart.getCartItems().stream()
+                    .filter(cartItem1 -> Long.valueOf(productId).equals(cartItem1.getProduct().getId()))
+                    .findAny();
 
-            cartItem.setQuantity(quantity);
-
+            cartItemOptional.ifPresent(cartItem -> cartItem.setQuantity(quantity));
             recalculateCart(cart);
         }
     }
@@ -111,11 +112,5 @@ public class HttpSessionCartService implements CartService {
             newQuantity += cartItem.getQuantity();
         }
         cart.setTotalQuantity(newQuantity);
-    }
-
-    private CartItem getCartItemFromCart(Cart cart, long id) {
-        return cart.getCartItems().stream()
-                .filter(cartItem1 -> Long.valueOf(id).equals(cartItem1.getProduct().getId()))
-                .findAny().get();
     }
 }

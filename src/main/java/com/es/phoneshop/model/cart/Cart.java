@@ -9,10 +9,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Getter
 public class Cart implements Serializable {
-    private List<CartItem> cartItems = Collections.synchronizedList(new ArrayList<>());
+    private List<CartItem> cartItems = new CopyOnWriteArrayList<>();
     private BigDecimal totalCost = new BigDecimal(0);
     private int totalQuantity = 0;
 
