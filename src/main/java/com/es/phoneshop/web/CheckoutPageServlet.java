@@ -7,8 +7,10 @@ import com.es.phoneshop.model.order.Order;
 import com.es.phoneshop.model.order.PaymentMethod;
 import com.es.phoneshop.service.CartService;
 import com.es.phoneshop.service.OrderService;
+import com.es.phoneshop.service.StockService;
 import com.es.phoneshop.service.impl.HttpSessionCartService;
 import com.es.phoneshop.service.impl.OrderServiceImpl;
+import com.es.phoneshop.service.impl.StockServiceImpl;
 import com.es.phoneshop.util.OrderUtility;
 
 import javax.servlet.ServletConfig;
@@ -27,11 +29,13 @@ public class CheckoutPageServlet extends HttpServlet {
 
     private CartService cartService;
     private OrderService orderService;
+    private StockService stockService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         cartService = HttpSessionCartService.getInstance();
         orderService = OrderServiceImpl.getInstance();
+        stockService = StockServiceImpl.getInstance();
     }
 
     @Override
@@ -65,7 +69,8 @@ public class CheckoutPageServlet extends HttpServlet {
 
         orderService.placeOrder(order, contactDetails, deliveryMode, paymentMethod);
         cartService.clearCart(cart);
+        stockService.recalculateStock(order);
 
-        response.sendRedirect(request.getRequestURI() + "/order/overview/" + order.getSecureId());
+        response.sendRedirect(request.getContextPath() + "/order/overview/" + order.getSecureId());
     }
 }
