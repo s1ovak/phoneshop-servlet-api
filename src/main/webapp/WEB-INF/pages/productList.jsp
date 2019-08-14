@@ -8,6 +8,11 @@
     <p>
         Welcome to Expert-Soft training!
     </p>
+
+    <a href="advancedSearch">
+        Advanced search
+    </a>
+
     <form>
         <input name="query" value="${param.query}">
         <button>Search</button>
