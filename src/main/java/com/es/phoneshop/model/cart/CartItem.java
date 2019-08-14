@@ -12,4 +12,8 @@ import java.io.Serializable;
 public class CartItem implements Serializable {
     private Product product;
     private int quantity;
+
+    public CartItem(CartItem item) {
+        this(item.getProduct(), item.getQuantity());
+    }
 }

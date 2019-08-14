@@ -68,4 +68,9 @@
         <button>Update</button>
     </form>
 
+    <form>
+        <c:url value="/checkout" var="orderUrl"/>
+        <button formaction="${orderUrl}">Checkout</button>
+    </form>
+
 </tags:master>
