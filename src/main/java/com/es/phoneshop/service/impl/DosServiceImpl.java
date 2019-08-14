@@ -21,7 +21,7 @@ public class DosServiceImpl implements DosService {
     }
 
     private static final int THRESHOLD = 20;
-    private Map<String, AtomicInteger> ipCallCount = new ConcurrentHashMap<>();
+    private final Map<String, AtomicInteger> ipCallCount = new ConcurrentHashMap<>();
     private volatile Date lastResetDate = new Date();
 
     @Override

@@ -102,8 +102,11 @@ public class HttpSessionCartService implements CartService {
 
     @Override
     public void clearCart(Cart cart) {
-        cart.clearAll();
-        cart.setTotalCost(BigDecimal.ZERO);
+        synchronized (cart) {
+            cart.clearAll();
+            cart.setTotalCost(BigDecimal.ZERO);
+            cart.setTotalQuantity(0);
+        }
     }
 
     private void recalculateCart(Cart cart) {
